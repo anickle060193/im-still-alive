@@ -3,43 +3,36 @@ import * as Bootstrap from 'react-bootstrap';
 import * as ReactRouterBootstrap from 'react-router-bootstrap';
 import * as firebase from 'firebase';
 
-interface AccountDropdownState
+import UserManagment from './../../UserManagement';
+
+const SignedInDropdownEntry: React.SFC<{ user: firebase.User, onSignOutClick: () => void }> = ( props ) =>
 {
-    user: firebase.User | null;
-}
+    return(
+        <Bootstrap.NavDropdown id="account-dropdown-signed-in" title={props.user.displayName as string}>
+            <Bootstrap.MenuItem onClick={() => props.onSignOutClick()}>Sign Out</Bootstrap.MenuItem>
+        </Bootstrap.NavDropdown>
+    );
+};
 
-export default class AccountDropdown extends React.Component<{}, AccountDropdownState>
+const NotSignedInDropdownEntry: React.SFC<{}> = ( props ) =>
 {
-    constructor( props: {} )
-    {
-        super( props );
+    return (
+        <ReactRouterBootstrap.LinkContainer to="/sign-in">
+            <Bootstrap.NavItem>Sign In</Bootstrap.NavItem>
+        </ReactRouterBootstrap.LinkContainer>
+    );
+};
 
-        firebase.auth().onAuthStateChanged( ( user: firebase.User ) =>
-        {
-            this.setState( { user: user } );
-        } );
-
-        this.state = { user: null };
-    }
-
+export default class AccountDropdown extends React.Component<{}, {}>
+{
     render()
     {
-        if( this.state.user )
-        {
-            return (
-                <Bootstrap.NavDropdown id="account-dropdown-signed-in" title={this.state.user.displayName as string}>
-                    <Bootstrap.MenuItem onClick={() => this.onSignOutClick()}>Sign Out</Bootstrap.MenuItem>
-                </Bootstrap.NavDropdown>
-            );
-        }
-        else
-        {
-            return (
-                <ReactRouterBootstrap.LinkContainer to="/sign-in">
-                    <Bootstrap.NavItem>Sign In</Bootstrap.NavItem>
-                </ReactRouterBootstrap.LinkContainer>
-            );
-        }
+        return (
+            <UserManagment
+                signedIn={( user ) => <SignedInDropdownEntry user={user} onSignOutClick={() => this.onSignOutClick()} />}
+                notSignedIn={() => <NotSignedInDropdownEntry/>}
+            />
+        );
     }
 
     private onSignOutClick()

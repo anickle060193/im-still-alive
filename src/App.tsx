@@ -3,6 +3,7 @@ import * as Bootstrap from 'react-bootstrap';
 import * as ReactRouter from 'react-router-dom';
 
 import AppNavbar from './components/AppNavbar';
+import Home from './scenes/Home';
 import SignIn from './scenes/SignIn';
 
 const App: React.SFC<{}> = ( props ) =>
@@ -13,7 +14,7 @@ const App: React.SFC<{}> = ( props ) =>
                 <AppNavbar />
 
                 <ReactRouter.Switch>
-                    <ReactRouter.Route exact={true} path="/" component={() => <div/>} />
+                    <ReactRouter.Route exact={true} path="/" component={Home} />
                     <ReactRouter.Route path="/sign-in" component={SignIn} />
                     <ReactRouter.Redirect to="/" />
                 </ReactRouter.Switch>
