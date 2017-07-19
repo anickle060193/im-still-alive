@@ -28,8 +28,6 @@ export default class AccountDropdown extends React.Component<{}, AccountDropdown
         {
             return (
                 <Bootstrap.NavDropdown id="account-dropdown-signed-in" title={this.state.user.displayName as string}>
-                    <Bootstrap.MenuItem>Account</Bootstrap.MenuItem>
-                    <Bootstrap.MenuItem divider={true} />
                     <Bootstrap.MenuItem onClick={() => this.onSignOutClick()}>Sign Out</Bootstrap.MenuItem>
                 </Bootstrap.NavDropdown>
             );
