@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as Bootstrap from 'react-bootstrap';
 import * as firebase from 'firebase';
 
-import * as database from './../../database';
+import * as database from 'database';
 
 interface NewCheckInFormProps
 {

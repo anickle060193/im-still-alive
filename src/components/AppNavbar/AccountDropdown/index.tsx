@@ -3,7 +3,7 @@ import * as Bootstrap from 'react-bootstrap';
 import * as ReactRouterBootstrap from 'react-router-bootstrap';
 import * as firebase from 'firebase';
 
-import UserManagment from './../../UserManagement';
+import UserManagment from 'components/UserManagement';
 
 const SignedInDropdownEntry: React.SFC<{ user: firebase.User, onSignOutClick: () => void }> = ( props ) =>
 {

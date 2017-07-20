@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as Bootstrap from 'react-bootstrap';
 import * as ReactRouter from 'react-router-dom';
 
-import UserManagement from './../../components/UserManagement';
+import UserManagement from 'components/UserManagement';
 import SignedInHome from './SignedInHome';
 
 const NotSignedInHome: React.SFC = ( props ) =>

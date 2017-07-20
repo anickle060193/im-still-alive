@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as Bootstrap from 'react-bootstrap';
 
-import NewCheckInForm from './../../../components/NewCheckInForm';
+import NewCheckInForm from 'components/NewCheckInForm';
 
 export default class SignedInHome extends React.Component<{}, {}>
 {
