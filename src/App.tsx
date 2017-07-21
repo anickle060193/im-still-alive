@@ -23,11 +23,9 @@ export default class App extends React.Component<{}, AppState>
     {
         super( props );
 
-        let user = firebase.auth().currentUser;
-
         this.state = {
             signedIn: false,
-            loading: !user
+            loading: true
         };
     }
 

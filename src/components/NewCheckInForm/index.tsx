@@ -56,11 +56,7 @@ export default class NewCheckInForm extends React.Component<NewCheckInFormProps,
             return;
         }
 
-        let checkIn: database.CheckIn = {
-            message: this.state.message,
-            checkedInAt: firebase.database.ServerValue.TIMESTAMP as number
-        };
-        firebase.database().ref( '/user-check-ins/' + user.uid + '/check-ins' ).push( checkIn ).then(
+        database.createCheckIn( user, this.state.message ).then(
             ( data: firebase.database.Reference ) =>
             {
                 this.setState( { message: '', messageError: null } );

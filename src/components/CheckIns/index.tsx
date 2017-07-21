@@ -32,7 +32,7 @@ export default class CheckIns extends React.Component<{}, CheckInsState>
             throw 'User must be signed-in to view CheckIns';
         }
 
-        this.checkInsRef = firebase.database().ref( `/user-check-ins/${user.uid}/check-ins/` );
+        this.checkInsRef = database.userCheckIns( user );
 
         this.checkInsRef.on( 'child_added', ( data ) =>
         {
