@@ -1,13 +1,13 @@
 import * as React from 'react';
 import * as Bootstrap from 'react-bootstrap';
-import * as ReactRouterBootstrap from 'react-router-bootstrap';
+// import * as ReactRouterBootstrap from 'react-router-bootstrap';
 import * as ReactRouter from 'react-router-dom';
 
 import AccountDropdown from './AccountDropdown';
 
 import './styles.css';
 
-const AppNavbar: React.SFC<{}> = ( props ) =>
+const AppNavbar: React.SFC = ( props ) =>
 {
     return (
         <Bootstrap.Navbar inverse={false} fluid={true} collapseOnSelect={true}>
@@ -21,12 +21,14 @@ const AppNavbar: React.SFC<{}> = ( props ) =>
 
             <Bootstrap.Navbar.Collapse>
                 <Bootstrap.Nav pullRight={true}>
+                    {/*
                     <ReactRouterBootstrap.LinkContainer to="/check-ins">
                         <Bootstrap.NavItem>Check Ins</Bootstrap.NavItem>
                     </ReactRouterBootstrap.LinkContainer>
                     <ReactRouterBootstrap.LinkContainer to="/check-in">
                         <Bootstrap.NavItem>Check In</Bootstrap.NavItem>
                     </ReactRouterBootstrap.LinkContainer>
+                    */}
 
                     <AccountDropdown />
                 </Bootstrap.Nav>

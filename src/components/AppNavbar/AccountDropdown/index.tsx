@@ -3,40 +3,26 @@ import * as Bootstrap from 'react-bootstrap';
 import * as ReactRouterBootstrap from 'react-router-bootstrap';
 import * as firebase from 'firebase';
 
-import UserManagment from 'components/UserManagement';
-
-const SignedInDropdownEntry: React.SFC<{ user: firebase.User, onSignOutClick: () => void }> = ( props ) =>
+const AccountDropdown: React.SFC = ( props ) =>
 {
-    return(
-        <Bootstrap.NavDropdown id="account-dropdown-signed-in" title={props.user.displayName as string}>
-            <Bootstrap.MenuItem onClick={() => props.onSignOutClick()}>Sign Out</Bootstrap.MenuItem>
-        </Bootstrap.NavDropdown>
-    );
-};
+    let user = firebase.auth().currentUser;
 
-const NotSignedInDropdownEntry: React.SFC<{}> = ( props ) =>
-{
-    return (
-        <ReactRouterBootstrap.LinkContainer to="/sign-in">
-            <Bootstrap.NavItem>Sign In</Bootstrap.NavItem>
-        </ReactRouterBootstrap.LinkContainer>
-    );
-};
-
-export default class AccountDropdown extends React.Component<{}, {}>
-{
-    render()
+    if( user )
     {
         return (
-            <UserManagment
-                signedIn={( user ) => <SignedInDropdownEntry user={user} onSignOutClick={() => this.onSignOutClick()} />}
-                notSignedIn={() => <NotSignedInDropdownEntry/>}
-            />
+            <Bootstrap.NavDropdown id="account-dropdown-signed-in" title={user.displayName as string}>
+                <Bootstrap.MenuItem onClick={() => firebase.auth().signOut()}>Sign Out</Bootstrap.MenuItem>
+            </Bootstrap.NavDropdown>
         );
     }
-
-    private onSignOutClick()
+    else
     {
-        firebase.auth().signOut();
+        return (
+            <ReactRouterBootstrap.LinkContainer to="/sign-in">
+                <Bootstrap.NavItem>Sign In</Bootstrap.NavItem>
+            </ReactRouterBootstrap.LinkContainer>
+        );
     }
-}
+};
+
+export default AccountDropdown;

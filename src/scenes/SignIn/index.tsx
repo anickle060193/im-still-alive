@@ -1,11 +1,17 @@
 import * as React from 'react';
 import * as ReactRouter from 'react-router-dom';
+import * as history from 'history';
 
 import FirebaseUi from './FirebaseUi';
 
 type SignInProps = ReactRouter.RouteComponentProps<{}>;
 
-export default class SignIn extends React.Component<SignInProps, {}>
+interface SignInState
+{
+    from: history.Location;
+}
+
+export default class SignIn extends React.Component<SignInProps, SignInState>
 {
     constructor( props: SignInProps )
     {
@@ -21,6 +27,6 @@ export default class SignIn extends React.Component<SignInProps, {}>
 
     private onSignInSuccess()
     {
-        this.props.history.push( '/' );
+        this.props.history.replace( '/' );
     }
 }

@@ -1,27 +1,79 @@
 import * as React from 'react';
 import * as Bootstrap from 'react-bootstrap';
 import * as ReactRouter from 'react-router-dom';
+import * as firebase from 'firebase';
 
-import AppNavbar from './components/AppNavbar';
-import Home from './scenes/Home';
-import SignIn from './scenes/SignIn';
+import * as AuthRouter from 'components/AuthRouter';
+import AppNavbar from 'components/AppNavbar';
+import Welcome from 'scenes/Welcome';
+import Home from 'scenes/Home';
+import SignIn from 'scenes/SignIn';
 
-const App: React.SFC<{}> = ( props ) =>
+interface AppState
 {
-    return (
-        <ReactRouter.BrowserRouter>
-            <Bootstrap.Grid>
-                <AppNavbar />
+    signedIn: boolean;
+    loading: boolean;
+}
 
-                <ReactRouter.Switch>
-                    <ReactRouter.Route exact={true} path="/" component={Home} />
-                    <ReactRouter.Route path="/sign-in" component={SignIn} />
-                    <ReactRouter.Redirect to="/" />
-                </ReactRouter.Switch>
+export default class App extends React.Component<{}, AppState>
+{
+    private removeOnAuthStateChangedListener: ( () => void ) | null;
 
-            </Bootstrap.Grid>
-        </ReactRouter.BrowserRouter>
-    );
-};
+    constructor( props: {} )
+    {
+        super( props );
 
-export default App;
+        let user = firebase.auth().currentUser;
+
+        this.state = {
+            signedIn: false,
+            loading: !user
+        };
+    }
+
+    componentWillMount()
+    {
+        this.removeOnAuthStateChangedListener = firebase.auth().onAuthStateChanged( ( user: firebase.User ) =>
+        {
+            this.setState( {
+                signedIn: !!user,
+                loading: false
+            } );
+        } );
+    }
+
+    componentWillUnMount()
+    {
+        if( this.removeOnAuthStateChangedListener )
+        {
+            this.removeOnAuthStateChangedListener();
+        }
+    }
+
+    render()
+    {
+        if( this.state.loading )
+        {
+            return (
+                <Bootstrap.ProgressBar active={true} striped={true} now={100} />
+            );
+        }
+        else
+        {
+            return (
+                <ReactRouter.BrowserRouter>
+                    <Bootstrap.Grid>
+                        <AppNavbar/>
+
+                        <ReactRouter.Switch>
+                            <ReactRouter.Route exact={true} path="/" component={this.state.signedIn ? Home : Welcome} />
+                            <AuthRouter.PublicRoute path="/sign-in" signedIn={this.state.signedIn} component={SignIn} />
+                            <ReactRouter.Redirect to="/" />
+                        </ReactRouter.Switch>
+
+                    </Bootstrap.Grid>
+                </ReactRouter.BrowserRouter>
+            );
+        }
+    }
+}
