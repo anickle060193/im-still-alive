@@ -78,10 +78,15 @@ export default class CheckIns extends React.Component<{}, CheckInsState>
             <Bootstrap.ListGroup>
                 {
                     Object.keys( this.state.checkIns ).map( ( key ) =>
-                        <Bootstrap.ListGroupItem key={key}>
-                            {this.state.checkIns[ key ].message} - {new Date( this.state.checkIns[ key ].checkedInAt ).toLocaleString()}
-                        </Bootstrap.ListGroupItem>
-                    ).reverse()
+                    {
+                        let checkIn = this.state.checkIns[ key ];
+                        return (
+                            <Bootstrap.ListGroupItem key={key}>
+                                {checkIn.message ? <p>{checkIn.message}</p> : null}
+                                <small>{new Date( checkIn.checkedInAt ).toLocaleString()}</small>
+                            </Bootstrap.ListGroupItem>
+                        );
+                    } ).reverse()
                 }
             </Bootstrap.ListGroup>
         );

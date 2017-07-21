@@ -11,10 +11,11 @@ export default class Home extends React.Component<{}, {}>
         return (
             <Bootstrap.Row>
                 <Bootstrap.Col xs={12} md={4}>
+                    <h2>New Check In</h2>
                     <NewCheckInForm />
                 </Bootstrap.Col>
                 <Bootstrap.Col xs={12} md={4}>
-                    <h2>Check Ins</h2>
+                    <h2>Your Check Ins</h2>
                     <CheckIns />
                 </Bootstrap.Col>
             </Bootstrap.Row>

@@ -32,7 +32,6 @@ export default class NewCheckInForm extends React.Component<NewCheckInFormProps,
         return (
             <form>
                 <Bootstrap.FormGroup validationState={!this.state.messageError ? undefined : 'error'}>
-                    <Bootstrap.ControlLabel>New Check In</Bootstrap.ControlLabel>
                     <Bootstrap.FormControl componentClass="textarea" rows={5} placeholder="Message..." value={this.state.message} onChange={( e ) => this.onChange( e )} />
                     <Bootstrap.HelpBlock>{this.state.messageError}</Bootstrap.HelpBlock>
                 </Bootstrap.FormGroup>
