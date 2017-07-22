@@ -4,6 +4,8 @@ import * as firebase from 'firebase';
 
 import * as database from 'database';
 
+import './styles.css';
+
 interface NewCheckInFormProps
 {
     onNewCheckIn?: () => void;
@@ -30,7 +32,7 @@ export default class NewCheckInForm extends React.Component<NewCheckInFormProps,
     render()
     {
         return (
-            <form>
+            <form className="new-check-in-form">
                 <Bootstrap.FormGroup validationState={!this.state.messageError ? undefined : 'error'}>
                     <Bootstrap.FormControl componentClass="textarea" rows={5} placeholder="Message..." value={this.state.message} onChange={( e ) => this.onChange( e )} />
                     <Bootstrap.HelpBlock>{this.state.messageError}</Bootstrap.HelpBlock>
