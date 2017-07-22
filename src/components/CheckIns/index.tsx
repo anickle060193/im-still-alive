@@ -32,13 +32,12 @@ export default class CheckIns extends React.Component<{}, CheckInsState>
             throw 'User must be signed-in to view CheckIns';
         }
 
-        this.checkInsRef = database.userCheckIns( user );
+        this.checkInsRef = database.getUserCheckIns( user.uid );
 
         this.checkInsRef.on( 'child_added', ( data ) =>
         {
             if( data && data.key )
             {
-                console.log( 'child_added', data.val() );
                 this.setState( ( prevState: CheckInsState ) =>
                 {
                     prevState.checkIns[ data.key as string ] = data.val() as database.CheckIn;
@@ -82,7 +81,11 @@ export default class CheckIns extends React.Component<{}, CheckInsState>
                         let checkIn = this.state.checkIns[ key ];
                         return (
                             <Bootstrap.ListGroupItem key={key}>
-                                {checkIn.message ? <p>{checkIn.message}</p> : null}
+                                {
+                                    !checkIn.message
+                                        ? null
+                                        : <p style={{whiteSpace: 'pre-line'}}>{checkIn.message}</p>
+                                }
                                 <small>{new Date( checkIn.checkedInAt ).toLocaleString()}</small>
                             </Bootstrap.ListGroupItem>
                         );

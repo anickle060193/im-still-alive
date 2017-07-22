@@ -6,14 +6,39 @@ export interface CheckIn
     message?: string | null;
 }
 
-export function userCheckIns( user: firebase.User )
+export interface UserProfile
 {
-    return firebase.database().ref( `users/${user.uid}/check-ins` );
+    email: string | null;
+    displayName: string | null;
 }
 
-export function createCheckIn( user: firebase.User, message?: string | null )
+function getUserRef( uid: string )
 {
-    let checkIns = userCheckIns( user );
+    return firebase.database().ref( `/users/${uid}` );
+}
+
+export function getUserProfileRef( uid: string )
+{
+    return getUserRef( uid ).child( 'profile' );
+}
+
+export function saveUserProfile( user: firebase.User )
+{
+    let userProfile: UserProfile = {
+        email: user.email,
+        displayName: user.displayName
+    };
+    return getUserProfileRef( user.uid ).set( userProfile );
+}
+
+export function getUserCheckIns( uid: string )
+{
+    return getUserRef( uid ).child( 'check-ins' );
+}
+
+export function addUserCheckIn( user: firebase.User, message?: string | null )
+{
+    let checkIns = getUserCheckIns( user.uid );
     let checkIn: CheckIn = {
         message: message,
         checkedInAt: firebase.database.ServerValue.TIMESTAMP as number

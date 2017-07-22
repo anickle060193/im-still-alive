@@ -2,6 +2,8 @@ import * as React from 'react';
 import * as firebase from 'firebase';
 import * as firebaseUI from 'firebaseui';
 
+import * as database from 'database';
+
 interface FirebaseUiProps
 {
     onSignInSuccess: () => void;
@@ -25,11 +27,7 @@ export default class FirebaseUi extends React.Component<FirebaseUiProps, {}>
 
         let uiConfig = {
             callbacks: {
-                signInSuccess: () =>
-                {
-                    this.props.onSignInSuccess();
-                    return false;
-                }
+                signInSuccess: ( user: firebase.User ) => this.onSignInSuccess( user )
             },
             signInFlow: 'popup',
             signInOptions: [
@@ -50,5 +48,14 @@ export default class FirebaseUi extends React.Component<FirebaseUiProps, {}>
     componentWillUnmount()
     {
         FirebaseUi.authUi.reset();
+    }
+
+    private onSignInSuccess( user: firebase.User )
+    {
+        database.saveUserProfile( user ).then( () =>
+        {
+            this.props.onSignInSuccess();
+        } );
+        return false;
     }
 }

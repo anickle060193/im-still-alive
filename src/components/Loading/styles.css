@@ -1,0 +1,20 @@
+.loading-circle
+{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 1;
+    width: 120px;
+    height: 120px;
+    margin: -60px 0 0 -60px;
+    border: 10px solid #f3f3f3;
+    border-top: 10px solid #e52d5b;
+    border-radius: 50%;
+    animation: loading-circle-spin 1.5s linear infinite;
+}
+
+@keyframes loading-circle-spin
+{
+    0% { transform: rotate( 0deg ); }
+    100% { transform: rotate( 360deg ); }
+}

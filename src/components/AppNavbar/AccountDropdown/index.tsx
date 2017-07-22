@@ -10,7 +10,10 @@ const AccountDropdown: React.SFC = ( props ) =>
     if( user )
     {
         return (
-            <Bootstrap.NavDropdown id="account-dropdown-signed-in" title={user.displayName as string}>
+            <Bootstrap.NavDropdown id="account-dropdown-signed-in" title={( user.displayName || user.email ) as string}>
+                <ReactRouterBootstrap.LinkContainer to={`/user/${user.uid}`}>
+                    <Bootstrap.MenuItem>Profile</Bootstrap.MenuItem>
+                </ReactRouterBootstrap.LinkContainer>
                 <Bootstrap.MenuItem onClick={() => firebase.auth().signOut()}>Sign Out</Bootstrap.MenuItem>
             </Bootstrap.NavDropdown>
         );

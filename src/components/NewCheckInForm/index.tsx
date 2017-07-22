@@ -56,7 +56,7 @@ export default class NewCheckInForm extends React.Component<NewCheckInFormProps,
             return;
         }
 
-        database.createCheckIn( user, this.state.message ).then(
+        database.addUserCheckIn( user, this.state.message ).then(
             ( data: firebase.database.Reference ) =>
             {
                 this.setState( { message: '', messageError: null } );

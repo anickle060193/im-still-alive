@@ -5,9 +5,12 @@ import * as firebase from 'firebase';
 
 import * as AuthRouter from 'components/AuthRouter';
 import AppNavbar from 'components/AppNavbar';
+import Loading from 'components/Loading';
+
 import Welcome from 'scenes/Welcome';
 import Home from 'scenes/Home';
 import SignIn from 'scenes/SignIn';
+import Profile from 'scenes/Profile';
 
 interface AppState
 {
@@ -53,7 +56,7 @@ export default class App extends React.Component<{}, AppState>
         if( this.state.loading )
         {
             return (
-                <Bootstrap.ProgressBar active={true} striped={true} now={100} />
+                <Loading/>
             );
         }
         else
@@ -66,6 +69,7 @@ export default class App extends React.Component<{}, AppState>
                         <ReactRouter.Switch>
                             <ReactRouter.Route exact={true} path="/" component={this.state.signedIn ? Home : Welcome} />
                             <AuthRouter.PublicRoute path="/sign-in" signedIn={this.state.signedIn} component={SignIn} />
+                            <ReactRouter.Route path="/user/:user_id" component={Profile} />
                             <ReactRouter.Redirect to="/" />
                         </ReactRouter.Switch>
 
