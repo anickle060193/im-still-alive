@@ -3,6 +3,7 @@ import * as Bootstrap from 'react-bootstrap';
 import * as firebase from 'firebase';
 
 import * as database from 'database';
+import ListRefEventable from 'helpers/listRefEventable';
 
 interface CheckInsState
 {
@@ -11,7 +12,7 @@ interface CheckInsState
 
 export default class CheckIns extends React.Component<{}, CheckInsState>
 {
-    private checkInsRef: firebase.database.Reference | null;
+    private checkInsListener: ListRefEventable<database.CheckIn>;
 
     constructor( props: {} )
     {
@@ -21,54 +22,27 @@ export default class CheckIns extends React.Component<{}, CheckInsState>
             checkIns: { }
         };
 
-        this.checkInsRef = null;
-    }
-
-    componentWillMount()
-    {
         let user = firebase.auth().currentUser;
         if( !user )
         {
             throw 'User must be signed-in to view CheckIns';
         }
 
-        this.checkInsRef = database.getUserCheckIns( user.uid );
+        let checkInsRef = database.getUserCheckIns( user.uid );
+        this.checkInsListener = new ListRefEventable( checkInsRef );
+    }
 
-        this.checkInsRef.on( 'child_added', ( data ) =>
+    componentWillMount()
+    {
+        this.checkInsListener.on( ( checkIns ) =>
         {
-            if( data && data.key )
-            {
-                this.setState( ( prevState: CheckInsState ) =>
-                {
-                    prevState.checkIns[ data.key as string ] = data.val() as database.CheckIn;
-                    return { checkIns: prevState.checkIns };
-                } );
-            }
+            this.setState( { checkIns: checkIns } );
         } );
+    }
 
-        this.checkInsRef.on( 'child_changed', ( data ) =>
-        {
-            if( data && data.key )
-            {
-                this.setState( ( prevState: CheckInsState ) =>
-                {
-                    prevState.checkIns[ data.key as string ] = data.val() as database.CheckIn;
-                    return { checkIns: prevState.checkIns };
-                } );
-            }
-        } );
-
-        this.checkInsRef.on( 'child_removed', ( data ) =>
-        {
-            if( data && data.key )
-            {
-                this.setState( ( prevState: CheckInsState ) =>
-                {
-                    delete prevState.checkIns[ data.key as string ];
-                    return { checkIns: prevState.checkIns };
-                } );
-            }
-        } );
+    componentWillUnmount()
+    {
+        this.checkInsListener.off();
     }
 
     render()
@@ -93,14 +67,5 @@ export default class CheckIns extends React.Component<{}, CheckInsState>
                 }
             </Bootstrap.ListGroup>
         );
-    }
-
-    componentWillUnmount()
-    {
-        if( this.checkInsRef )
-        {
-            this.checkInsRef.off();
-            this.checkInsRef = null;
-        }
     }
 }
