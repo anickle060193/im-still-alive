@@ -37,19 +37,19 @@ export default class NewCheckInForm extends React.Component<NewCheckInFormProps,
                     <Bootstrap.FormControl componentClass="textarea" rows={5} placeholder="Message..." value={this.state.message} onChange={( e ) => this.onChange( e )} />
                     <Bootstrap.HelpBlock>{this.state.messageError}</Bootstrap.HelpBlock>
                 </Bootstrap.FormGroup>
-                <Bootstrap.Button type="button" bsStyle="primary" block={true} onClick={( e ) => this.onClick( e )}>
+                <Bootstrap.Button type="button" bsStyle="primary" block={true} onClick={( e ) => this.onClick()}>
                     Save
                 </Bootstrap.Button>
             </form>
         );
     }
 
-    private onChange( e: React.FormEvent<React.Component<Bootstrap.FormControlProps, {}>> )
+    private onChange( e: BootstrapTextAreaInputChangeEvent )
     {
-        this.setState( { message: ( e.target as HTMLTextAreaElement ).value } );
+        this.setState( { message: ( e.currentTarget as HTMLTextAreaElement ).value } );
     }
 
-    private onClick( e: React.FormEvent<React.ClassicComponent<Bootstrap.ButtonProps, {}>> )
+    private onClick()
     {
         let user = firebase.auth().currentUser;
         if( user === null )

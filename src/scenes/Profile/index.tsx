@@ -5,6 +5,7 @@ import * as firebase from 'firebase';
 
 import * as database from 'database';
 import Loading from 'components/Loading';
+import NewFollower from 'components/NewFollower';
 
 interface ProfileRoutePropsMatch
 {
@@ -69,15 +70,21 @@ export default class Profile extends React.Component<ProfileProps, ProfileState>
         else
         {
             return (
-                <Bootstrap.Row>
-                    <Bootstrap.Col xs={12}>
-                        {
-                            this.state.userProfile.displayName
-                                ? <h1>{this.state.userProfile.displayName} <small>{this.state.userProfile.email}</small></h1>
-                                : <h1>{this.state.userProfile.email}</h1>
-                        }
-                    </Bootstrap.Col>
-                </Bootstrap.Row>
+                <Bootstrap.Grid>
+                    {
+                        this.state.userProfile.displayName
+                            ? <h1>{this.state.userProfile.displayName} <small>{this.state.userProfile.email}</small></h1>
+                            : <h1>{this.state.userProfile.email}</h1>
+                    }
+
+                    <Bootstrap.Row>
+                        <Bootstrap.Col xs={12} md={4}>
+                            <h3>New Follower</h3>
+                            <NewFollower/>
+                        </Bootstrap.Col>
+                    </Bootstrap.Row>
+
+                </Bootstrap.Grid>
             );
         }
     }

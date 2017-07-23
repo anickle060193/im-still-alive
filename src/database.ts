@@ -12,14 +12,9 @@ export interface UserProfile
     displayName: string | null;
 }
 
-function getUserRef( uid: string )
-{
-    return firebase.database().ref( `/users/${uid}` );
-}
-
 export function getUserProfileRef( uid: string )
 {
-    return getUserRef( uid ).child( 'profile' );
+    return firebase.database().ref( 'users' ).child( uid );
 }
 
 export function saveUserProfile( user: firebase.User )
@@ -33,7 +28,7 @@ export function saveUserProfile( user: firebase.User )
 
 export function getUserCheckIns( uid: string )
 {
-    return getUserRef( uid ).child( 'check-ins' );
+    return firebase.database().ref( 'check-ins' ).child( uid );
 }
 
 export function addUserCheckIn( user: firebase.User, message?: string | null )
@@ -44,4 +39,13 @@ export function addUserCheckIn( user: firebase.User, message?: string | null )
         checkedInAt: firebase.database.ServerValue.TIMESTAMP as number
     };
     return checkIns.push( checkIn );
+}
+
+export function addFollower( userId: string, followerId: string )
+{
+    let updates = {
+        [ `followers/${userId}/${followerId}` ] : true,
+        [ `following/${followerId}/${userId}` ] : true
+    };
+    return firebase.database().ref().update( updates );
 }
