@@ -23,9 +23,11 @@ interface UserProfileWrapperState
     loading: boolean;
 }
 
-export default function withUserProfile( WrappedComponent: UserProfileComponent )
+export type UserProfileWrapper = React.ComponentType<UserProfileWrapperProps>;
+
+export default function withUserProfile( WrappedComponent: UserProfileComponent ): UserProfileWrapper
 {
-    return class UserProfileWrapper extends React.Component<UserProfileWrapperProps, UserProfileWrapperState>
+    return class extends React.Component<UserProfileWrapperProps, UserProfileWrapperState>
     {
         private userRef: firebase.database.Reference;
 

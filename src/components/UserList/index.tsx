@@ -3,7 +3,7 @@ import * as Bootstrap from 'react-bootstrap';
 import * as BootstrapRouter from 'react-router-bootstrap';
 import * as firebase from 'firebase';
 
-import withUserProfile, { UserProfileComponent, UserProfileComponentProps } from 'components/UserProfileWrapper';
+import withUserProfile, { UserProfileComponent, UserProfileComponentProps, UserProfileWrapper } from 'components/UserProfileWrapper';
 import ListRefEventable from 'helpers/listRefEventable';
 
 type UserListProps = {
@@ -20,6 +20,7 @@ export default class UserList extends React.Component<UserListProps, UserListSta
 {
     private usersRef: firebase.database.Reference;
     private usersListener: ListRefEventable<boolean>;
+    private userComponentWrapper: UserProfileWrapper;
 
     constructor( props: UserListProps )
     {
@@ -29,6 +30,8 @@ export default class UserList extends React.Component<UserListProps, UserListSta
 
         this.usersRef = firebase.database().ref( this.props.usersRefPath );
         this.usersListener = new ListRefEventable( this.usersRef );
+
+        this.userComponentWrapper = withUserProfile( this.props.userComponent ? this.props.userComponent : BasicUserProfile );
     }
 
     componentWillMount()
@@ -46,8 +49,8 @@ export default class UserList extends React.Component<UserListProps, UserListSta
 
     render()
     {
-        const { usersRefPath, userComponent, ...rest }: UserListProps = this.props;
-        let UserComponent = withUserProfile( userComponent ? userComponent : BasicUserProfile );
+        const { usersRefPath: _, userComponent: __, ...rest }: UserListProps = this.props;
+        let UserComponent = this.userComponentWrapper;
         return (
             <Bootstrap.ListGroup>
                 {
