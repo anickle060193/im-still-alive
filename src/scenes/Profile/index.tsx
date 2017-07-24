@@ -9,12 +9,10 @@ import NewFollower from 'components/NewFollower';
 import UserList from 'components/UserList';
 import { UserProfileComponentProps } from 'components/UserProfileWrapper';
 
-interface ProfileRoutePropsMatch
+interface ProfileProps
 {
     userId: string;
 }
-
-type ProfileProps = ReactRouter.RouteComponentProps<ProfileRoutePropsMatch>;
 
 interface ProfileState
 {
@@ -30,7 +28,7 @@ export default class Profile extends React.Component<ProfileProps, ProfileState>
     {
         super( props );
 
-        this.userProfileRef = database.getUserProfileRef( this.props.match.params.userId );
+        this.userProfileRef = database.getUserProfileRef( this.props.userId );
 
         this.state = {
             userProfile: null,
@@ -89,7 +87,7 @@ export default class Profile extends React.Component<ProfileProps, ProfileState>
                     <Bootstrap.Row>
                         <Bootstrap.Col xs={12} md={4}>
                             <h3>Followers</h3>
-                            <UserList usersRefPath={`followers/${this.props.match.params.userId}/`} userComponent={Follower} followeeId={this.props.match.params.userId} />
+                            <UserList usersRefPath={`followers/${this.props.userId}/`} userComponent={Follower} followeeId={this.props.userId} />
                         </Bootstrap.Col>
                     </Bootstrap.Row>
 

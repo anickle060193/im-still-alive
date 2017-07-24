@@ -69,7 +69,7 @@ export default class App extends React.Component<{}, AppState>
                         <ReactRouter.Switch>
                             <ReactRouter.Route exact={true} path="/" component={this.state.signedIn ? Home : Welcome} />
                             <AuthRouter.PublicRoute path="/sign-in" signedIn={this.state.signedIn} component={SignIn} />
-                            <ReactRouter.Route path="/user/:userId" component={Profile} />
+                            <ReactRouter.Route path="/user/:userId" render={( props ) => <Profile key={props.match.params.userId} userId={props.match.params.userId}/>} />
                             <ReactRouter.Redirect to="/" />
                         </ReactRouter.Switch>
 
