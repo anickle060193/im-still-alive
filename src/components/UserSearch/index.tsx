@@ -3,7 +3,7 @@ import * as Bootstrap from 'react-bootstrap';
 import * as BootstrapRouter from 'react-router-bootstrap';
 import * as firebase from 'firebase';
 
-import * as database from 'database';
+import * as database from 'helpers/database';
 
 interface UserSearchProps
 {

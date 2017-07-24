@@ -3,7 +3,7 @@ import * as ReactRouter from 'react-router-dom';
 import * as Bootstrap from 'react-bootstrap';
 import * as firebase from 'firebase';
 
-import * as database from 'database';
+import * as database from 'helpers/database';
 import Loading from 'components/Loading';
 import NewFollower from 'components/NewFollower';
 import UserList from 'components/UserList';

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as firebase from 'firebase';
 
-import * as database from 'database';
+import * as database from 'helpers/database';
 
 export interface UserProfileComponentProps
 {

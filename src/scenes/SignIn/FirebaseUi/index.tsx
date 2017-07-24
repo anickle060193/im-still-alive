@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as firebase from 'firebase';
 import * as firebaseUI from 'firebaseui';
 
-import * as database from 'database';
+import * as database from 'helpers/database';
 
 interface FirebaseUiProps
 {
